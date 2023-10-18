@@ -1,11 +1,14 @@
 (ns clojure-rest-api.core
   (:require [liberator.core :refer [resource defresource]]
             [ring.middleware.params :refer [wrap-params]]
-            [compojure.core :refer [defroutes ANY]]))
+            [compojure.core :refer [defroutes GET]]))
+
+(defresource root []
+  :available-media-types ["text/html"]
+  :handle-ok (fn [_] "<html><body><h1>Hello, Internet.</h1></body></html>"))
 
 (defroutes app
-  (ANY "/" [] (resource :available-media-types ["text/html"]
-                        :handle-ok "<html>Hello, Internet.</html>")))
+  (GET "/" [] (root)))
 
 (def handler
   (-> app
